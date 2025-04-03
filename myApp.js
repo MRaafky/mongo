@@ -26,13 +26,13 @@ const createAndSavePerson = (done) => {
     age : 21,
     favoriteFoods : ["Nilla Asam Manis","Iga"]
   })
-  // document.save((err, data) => {
-  //   if (err) {
-  //     return console.error("Error:", err);
-  //   }
-  //   console.log("Data berhasil disimpan");
-  //   done(null, data);
-  // });
+  document.save((err, data) => {
+    if (err) {
+      return console.error("Error:", err);
+    }
+    console.log("Data berhasil disimpan");
+    done(null, data);
+  });
 };
 // Implementasi dari sebuah function diatas
 // createAndSavePerson((err, data) => {
@@ -45,9 +45,9 @@ const createAndSavePerson = (done) => {
 
 // {4} --membuat dokumen langsung banyak dari sebuah array
 const arrayOfPeople =[
-  {name:"Brando" , age:40,"favoriteFoods":["Tung-tung sahur","linggang guli guli"]},
-  {name:"Frankie" , age:35,"favoriteFoods":["opor ayam","linggang guli guli"]},
-  {name:"Wassa" , age:23,"favoriteFoods":["POT HOSPOT","linggang guli guli"]}
+  {name:"Brando" , age:40,"favoriteFoods":["Tung-tung sahur","linggang guli guli","burrito"]},
+  {name:"Frankie" , age:35,"favoriteFoods":["opor ayam","linggang guli guli","burrito"]},
+  {name:"Wassa" , age:23,"favoriteFoods":["POT HOSPOT","linggang guli guli","burrito"]}
 ];
 const createManyPeople = (arrayOfPeople, done) => {
   Person.create(arrayOfPeople,(err,people)=>{
@@ -55,13 +55,13 @@ const createManyPeople = (arrayOfPeople, done) => {
     done(null, people);
   })
 };
-// createManyPeople(arrayOfPeople,(err,people)=>{
-//   if(err){
-//     console.log("Error : ", err )
-//   }else{
-//     console.log("secces : ", people)
-//   }
-// })
+createManyPeople(arrayOfPeople,(err,people)=>{
+  if(err){
+    console.log("Error : ", err )
+  }else{
+    console.log("succes : ", people)
+  }
+})
 
 // {5} --mencari data 
 const findPeopleByName = (personName, done) => {
@@ -193,9 +193,24 @@ const removeManyPeople = (done) => {
 // {12}
 const queryChain = (done) => {
   const foodToSearch = "burrito";
+  Person.find({favoriteFoods : foodToSearch})
+    .sort({name : 'asc'})
+    .limit(2)
+    .select('-age')
+    .exec(function(err,data){
+      if (err) console.log("gagal dalam pelaksanaan query :", err)
+        done(null , data);
+    })
 
-  done(null /*, data*/);
 };
+queryChain((err, result) => {
+  if (err) {
+    console.log("Terjadi kesalahan:", err);
+  } else {
+    console.log("Hasil setelah dilakukan queryChain :", result);
+  }
+});
+
 
 
 /** **Well Done !!**
