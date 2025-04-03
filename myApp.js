@@ -164,22 +164,33 @@ const removeById = (personId, done) => {
     done(null , setDataDelete);
   })
 };
-const _id = '67ee1a18cea01a7bf86740dc'
-removeById(_id,(err,setDataDelete)=>{
-  if (err){
-    console.log("Data gagal dihapus: ", err)
-  }else{
-    console.log("Data berhasil dihapus", setDataDelete)
-  }
-})
+// const _id = '67ee1a18cea01a7bf86740dc'
+// removeById(_id,(err,setDataDelete)=>{
+//   if (err){
+//     console.log("Data gagal dihapus: ", err)
+//   }else{
+//     console.log("Data berhasil dihapus", setDataDelete)
+//   }
+// })
 
-// {11} --
+// {11} --remove() untuk menghapus data secara banyak
 const removeManyPeople = (done) => {
   const nameToRemove = "Mary";
-
-  done(null /*, data*/);
+  Person.remove({name : nameToRemove},function(err,updateAfterRemove){
+    if(err) console.log("Gagal remove")
+    done(null , updateAfterRemove);
+  })
 };
+// removeManyPeople((err, result) => {
+//   if (err) {
+//     console.log("Terjadi kesalahan:", err);
+//   } else {
+//     console.log("Hasil setelah remove:", result);
+//   }
+// });
 
+
+// {12}
 const queryChain = (done) => {
   const foodToSearch = "burrito";
 
